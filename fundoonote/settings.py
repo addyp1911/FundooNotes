@@ -63,7 +63,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'elastic_server:9200'
+        'hosts': 'localhost:9200'
     },
 }
 
