@@ -1,0 +1,56 @@
+[
+{
+  "test_user1": {
+    "username": "lal12",
+    "email": "addyp1911",
+    "confirm_email": "addyp1911",
+    "password": "hello"
+  },
+   "test_user2": {
+     "username": "ad",
+     "email": "hey@gmail.com",
+     "confirm_email": "hey12@gmail.com",
+     "password": "lovely"
+   },
+
+  "test_user3": {
+     "username": "teddy",
+     "email":"adhikaripooja920@gmail.com",
+     "confirm_email":"adhikaripooja920@gmail.com",
+     "password": "ted"
+  }
+
+},
+
+{
+  "test_user1": {
+    "username": "lal12",
+    "password": "hello"
+  },
+
+   "test_user2": {
+     "username": "ad",
+     "password": "lovely"
+   },
+
+  "test_user3": {
+     "username": "teddy",
+     "password": "ted"
+  }
+
+},
+  {
+    "test_user1": {
+      "username": "addy",
+      "email": "addyp1911@gmail.com"
+    },
+    "test_user2": {
+      "username": "ad",
+      "email": "hey@gmail.com"
+    },
+    "test_user3": {
+      "username": "addy",
+      "email": "sbdy@gmail.com"
+    }
+  }
+]

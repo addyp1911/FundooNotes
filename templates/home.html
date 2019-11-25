@@ -1,0 +1,41 @@
+{% load socialaccount %}
+<body bgcolor=#708090>
+<div align="center">
+<h1>Django AllAuth Social Login</h1>
+{% if user.is_authenticated %}
+<p>Welcome {{ user.username }} !!!
+ <form method="post" action="{% url 'account_logout' %}">
+ {% csrf_token %}
+ {% if redirect_field_value %}
+ <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+ {% else %}
+ <button class="STYLE_ME" type="submit">LOGOUT</button>
+ {% endif %}
+
+{% else %}
+ <form method="post" action="{% url 'account_login' %}">
+ {% csrf_token %}
+ <button type="submit">Social User Login</button>
+</form>
+
+ <form>
+ <button formaction="https://www.facebook.com/sharer/sharer.php?">Share on Facebook</button>
+</form>
+
+ <form method="post" action='/api/post/'>
+ {% csrf_token %}
+ <button type="submit">Click to post a note</button>
+<hr>
+ <a href="https://www.facebook.com/sharer/sharer.php?u=https://tutorial.djangogirls.org" class="button">Share link on facebook</a> <br>
+<br>
+ <a href='https://twitter.com/intent/tweet?text={{ title }} {{ content }}'class="button">Share note on Twitter</a>
+ {% csrf_token %}
+</form>
+</div>
+</form>
+</p>
+</body>
+
+{% endif %}
+
+

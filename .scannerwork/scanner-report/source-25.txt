@@ -1,0 +1,121 @@
+"""
+******************************************************************************
+* Purpose: purpose is to define the tests for the APIs defined for the app using
+           pytest
+* @author POOJA ADHIKARI
+* @version 3.7
+* @since 22/10/2019
+******************************************************************************
+"""
+import json
+import requests
+from fundoonote.settings import note_create_url, label_create_url, note_url, label_url, \
+    archive_notes_url, trash_notes_url, reminder_url,send_mail_url
+
+
+with open('/home/admin1/Desktop/documents/myproject/fundoonote/templates/testing_note.json', 'r') as f:
+    DATA = json.load(f)
+
+header = {'Content/Type': 'application/json',
+          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczNzg0NDgzLCJqdGkiOiJkNzU0YzVmYzg3Mjc0ZmQzYjZmODA5NGJjZmE0YzRmMCIsInVzZXJfaWQiOjF9.R7XrdTyedRLCfQXMaj5hvJzzIvmhgGUGETZ-MFJFxW8'
+          }
+
+
+#
+# def test_note_create_view1():
+#     response = requests.post(url=note_create_url, headers=header, data=DATA[0]['note1'])
+#     print(response.content)
+#     assert response.status_code == 200
+#
+#
+# def test_note_create_view2():
+#     response = requests.post(url=note_create_url, data=DATA[0]['note2'], headers=header)
+#     print(response.content)
+#     assert response.status_code == 400
+#
+#
+# def test_note_create_view3():
+#     response = requests.post(url=note_create_url, data=DATA[0]['note3'], headers=header)
+#     print(response.content)
+#     assert response.status_code == 200
+#
+#
+# def test_label_create_view1():
+#     response = requests.post(url=label_create_url, data=DATA[1]['label1'], headers=header)
+#     assert response.status_code == 201
+#
+#
+# def test_label_create_view2():
+#     response = requests.post(url=label_create_url, data=DATA[1]['label2'], headers=header)
+#     assert response.status_code == 400
+#
+#
+# def test_label_create_view3():
+#     response = requests.post(url=label_create_url, data=DATA[1]['label3'], headers=header)
+#     assert response.status_code == 400
+#
+#
+# def test_note_update_view1():
+#     response = requests.put(url=note_url, data=DATA[2]['note1'], headers=header)
+#     print(response.content)
+#     assert response.status_code == 201
+#
+#
+# def test_note_update_view2():
+#     response = requests.put(url=note_url, data=DATA[2]['note2'], headers=header)
+#     print(response.content)
+#     assert response.status_code == 201
+#
+#
+# def test_note_get_view2():
+#     response = requests.get(url=note_url, headers=header)
+#     print(response.content)
+#     assert response.status_code == 200
+#
+#
+# def test_note_delete_view3():
+#     response = requests.delete(url=note_url, headers=header)
+#     print(response.content)
+#     assert response.status_code == 200
+#
+#
+# def test_label_view1():
+#     response = requests.put(url=label_url, data=DATA[3]['label1'], headers=header)
+#     print(response.content)
+#     assert response.status_code == 201
+#
+#
+# def test_label_view2():
+#     response = requests.get(url=label_url, headers=header)
+#     print(response.content)
+#     assert response.status_code == 200
+#
+#
+# def test_label_view3():
+#     response = requests.delete(url=label_url, headers=header)
+#     print(response.content)
+#     assert response.status_code == 200
+
+
+def test_reminder_view():
+    response = requests.get(url=reminder_url, headers=header)
+    print(response.content)
+    assert response.status_code == 200
+
+
+def test_archived_view():
+    response = requests.get(url=archive_notes_url, headers=header)
+    print(response.content)
+    assert response.status_code == 200
+
+
+def test_trash_view():
+    response = requests.get(url=trash_notes_url, headers=header)
+    print(response.content)
+    assert response.status_code == 200
+
+#
+# def test_send_email_view():
+#     response = requests.post(url=send_mail_url, data=DATA[4]['email1'])
+#     print(response.content)
+#     assert response.status_code == 200

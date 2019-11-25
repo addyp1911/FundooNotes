@@ -1,0 +1,55 @@
+# from elasticsearch_dsl import analyzer
+# from django_elasticsearch_dsl.registries import registry
+# from django_elasticsearch_dsl import Document, Index, fields
+# from .models import Note
+#
+# # INDEX = Index('search_notes')
+#
+# #
+# # INDEX.settings(
+# #     number_of_shards=1,
+# #     number_of_replicas=1
+# # )
+#
+# html_strip = analyzer(
+#     'html_strip',
+#     tokenizer="standard",
+#     filter=["lowercase", "stop", "snowball"],
+#     char_filter=["html_strip"]
+# )
+#
+#
+# @registry.register_document
+# # @INDEX.document
+# class NoteDocument(Document):
+#     """Note Elasticsearch document."""
+#
+#     class Django:
+#         model = Note
+#
+#     id = fields.IntegerField(attr='id')
+#
+#     title = fields.StringField(
+#         analyzer=html_strip,
+#         fields={
+#             'raw': fields.KeywordField(),
+#         }
+#     )
+#
+#     content = fields.StringField(
+#         analyzer=html_strip,
+#         fields={
+#             'raw': fields.KeywordField(),
+#         }
+#     )
+#
+#     label = fields.StringField(
+#         analyzer=html_strip,
+#         fields={
+#             'raw': fields.KeywordField(),
+#         }
+#     )
+#     is_archive = fields.BooleanField()
+#     is_pin = fields.BooleanField()
+#     is_trash = fields.BooleanField()
+#     reminder = fields.DateField()

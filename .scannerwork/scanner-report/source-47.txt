@@ -1,0 +1,63 @@
+"""
+******************************************************************************
+* Purpose: purpose is to define the serializers which are very similar to a Django Form class, and
+includes similar validation flags on the various fields, such as required, max_length and default.
+Serializers allow complex data such as querysets and model instances to be converted to native Python
+datatypes that can then be easily rendered into JSON, XML or other content types
+.
+* @author POOJA ADHIKARI
+* @version 3.7
+* @since 22/10/2019
+******************************************************************************
+"""
+
+from rest_framework import serializers
+from .models import Label, Note, EmailTemplate
+# from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
+# from .documents import NoteDocument
+
+
+class LabelSerializer(serializers.ModelSerializer):
+    """
+    A serializer defined for the model Label
+    """
+
+    class Meta:
+        model = Label
+        fields = '__all__'
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    """
+    A serializer defined for the model Note
+    """
+
+    class Meta:
+        model = Note
+        fields = '__all__'
+
+
+class EmailTemplateSerializer(serializers.ModelSerializer):
+    """
+    A serializer defined for the model Email Template
+    """
+
+    class Meta:
+        model = EmailTemplate
+        fields = '__all__'
+
+#
+# class NoteDocumentSerializer(DocumentSerializer):
+#     """Serializer for the document."""
+#     class Meta(object):
+#         """Meta options."""
+#
+#         document = NoteDocument
+#
+#         fields = (
+#             'id',
+#             'title',
+#             'content',
+#             'label',
+#             'reminder',
+#         )

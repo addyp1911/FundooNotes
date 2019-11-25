@@ -1,0 +1,135 @@
+[
+ {  "note1": {
+    "title": "hello user",
+    "content": "hi",
+    "is_archive": true,
+    "is_pin": true,
+    "is_trash": true,
+    "user": 1,
+    "label": [
+       "3"
+    ],
+    "collaborator": [
+      "2"
+    ]
+  },
+
+    "note2": {
+      "title": "meeting",
+      "content": "office meeting at 10",
+      "is_archive": true,
+      "is_pin": true,
+      "is_trash": false,
+      "label": [
+        "3"
+      ],
+      "collaborator": [
+        "5"
+      ]
+    },
+
+
+    "note3": {
+      "title": "xyz",
+      "content": "string",
+      "is_archive": true,
+      "is_pin": true,
+      "is_trash": false,
+      "label": [
+        "2","4"
+      ],
+      "collaborator": [
+        "2"
+      ]
+    }
+  },
+
+
+
+  {
+    "label1": {
+      "label": "byeee",
+      "user": 1
+    },
+    "label2": {
+      "label": "notimportant",
+      "user": 2
+    },
+    "label3": {
+      "label": "veryurgent",
+      "user": 0
+    }
+  } ,
+
+
+
+
+
+  {
+   "note1": {
+      "heading": "market",
+      "content": "have to go to market at 10pm today",
+      "is_archive": true,
+      "is_pin": true,
+      "label": [
+        "3"
+      ],
+      "collaborator": [
+        "2"
+      ]
+    },
+
+
+     "note2": {
+      "heading": "shopping",
+      "content": "shopping at 10pm today",
+      "is_archive": true,
+      "is_pin": true,
+      "image": "/home/user/Pictures/image.jpeg",
+      "reminder": "2019-10-30T05:41:13Z",
+      "user": 3,
+      "label": [
+        "9"
+      ],
+      "collaborator": [
+        "2"
+      ]
+    }
+
+
+},
+
+
+
+
+
+    {
+    "label1": {
+      "label": "imppp",
+      "user": 1
+    },
+    "label2": {
+      "label": "important",
+      "user": 0
+
+    },
+    "label3": {
+      "label": "very urgent",
+      "user": 2
+
+    }
+  },
+  {
+    "email1":
+    {
+    "subject": "Please note user",
+    "to_email": "addyp1911@gmail.com",
+    "from_email": "lilysingh789@gmail.com",
+    "plain_text": "reset password user",
+    "is_html": true,
+    "is_text": true,
+    "template_key": "432"
+   }
+}
+  ]
+

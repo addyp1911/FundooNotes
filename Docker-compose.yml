@@ -1,0 +1,66 @@
+version: "3"
+services:
+  django:
+    container_name: django_server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/myproject
+    ports:
+      - "8000:8000"
+    networks:
+      - all
+    command: bash -c "sleep 5 && python manage.py makemigrations  && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - mysql_db
+      - redis
+
+  mysql_db:
+    container_name: mysql_database
+    image: 'mysql:5.7'
+    ports:
+      - "3306:3306"
+    environment:
+       - MYSQL_DATABASE=myproject
+       - MYSQL_USER=myprojectuser
+       - MYSQL_PASSWORD=Hello123#
+       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - all
+
+  redis:
+    container_name: 'redis'
+    image: 'redis:3.2.0'
+    ports:
+      - '127.0.0.1:6379:6379'
+    networks:
+      - all
+
+  apache_server:
+    container_name: apache_doc
+    image: httpd
+    ports:
+    - "80:80"
+    networks:
+     - all
+
+  elastic_server:
+    container_name: elastic_search
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+    environment:
+      - node.name=node-1
+      - cluster.name=fundoo_notes_cluster
+      - bootstrap.memory_lock=true
+      - cluster.initial_master_nodes=node-1
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - .:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - all
+
+networks:
+  all:
+    driver: bridge
