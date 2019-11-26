@@ -34,7 +34,6 @@ class RedisConnection:
 
     def redis_conn_trash(self, note_query_set):
         new_list = []
-
         for note in note_query_set:
             note_id = 'note' + str(note.id)
             redis_data = redis_obj.get(note_id)
@@ -44,7 +43,8 @@ class RedisConnection:
             else:
                 note_object = Note.objects.filter(id=note.id)
                 note_serializer = NoteSerializer(note_object, many=True)
-                redis_obj.set(note_id, str(note_serializer.data))
+                data = [{k: v for k, v in data.items()} for data in note_serializer.data]
+                redis_obj.set(note_id, str(data))
                 redis_dict = note_serializer.data
             new_list.append(redis_dict)
         return new_list
@@ -61,7 +61,8 @@ class RedisConnection:
             else:
                 note_object = Note.objects.filter(id=note.id)
                 note_serializer = NoteSerializer(note_object, many=True)
-                redis_obj.set(note_id, str(note_serializer.data))
+                data = [{k: v for k, v in data.items()} for data in note_serializer.data]
+                redis_obj.set(note_id, str(data))
                 redis_dict = note_serializer.data
             new_list.append(redis_dict)
         return new_list
@@ -88,5 +89,5 @@ class RedisConnection:
                     data.update({'reminder_status': 'upcoming'})
                     upcoming_list.append(data)
                 count += 1
-        display_list.append(fired_list+upcoming_list)
+        display_list.append(fired_list + upcoming_list)
         return display_list

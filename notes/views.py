@@ -8,6 +8,8 @@ Handler methods return REST framework's Response
 * @since 22/10/2019
 ******************************************************************************
 """
+import pdb
+
 from django.contrib.auth.models import User
 from django.core import mail
 from django.core.paginator import Paginator, PageNotAnInteger
@@ -522,7 +524,7 @@ class NoteSearch(GenericAPIView):
         try:
             searched_notes = search_note(request, param)
             serializer = NoteDocumentSerializer(searched_notes, many=True)
-            logger.info("notes searched for the {} using elastic search".format(request.user))
+            logger.info("searched for the notes for {} using elastic search".format(request.user))
             return Response(serializer.data)
         except Exception as e:
             logger.error("error caused by {} for {} while using elastic search".format(str(e), request.user))

@@ -5,13 +5,16 @@ requests are passed to the handler methods (get,post)which are REST framework's 
 Handler methods return REST framework's Response
 Author: pooja adhikari
 """
-from django.views.generic import TemplateView
-from requests import Response
-from rest_framework.generics import GenericAPIView
 from django.shortcuts import render
+from django.views.generic import TemplateView
+from fundoonote.settings import BASE_DIR, AWS_STORAGE_BUCKET_NAME
 from rest_framework import status
-from .serializers import FileSerializer, DocumentSerializer, PostsShareSerializer
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
+from services.aws import delete_file, upload_file
 from services.utils import smd_response
+from .serializers import FileSerializer, DocumentSerializer, PostsShareSerializer
+import os
 
 
 class Home(TemplateView):
@@ -51,7 +54,7 @@ class DocumentUploadView(GenericAPIView):
         return smd
 
 
-class FileUploadView(GenericAPIView):
+class S3FileUploadView(GenericAPIView):
     """
     an endpoint for uploading a media file
     """
@@ -66,18 +69,28 @@ class FileUploadView(GenericAPIView):
 
         file_serializer = FileSerializer(data=request.data)
         if file_serializer.is_valid():
-            file_serializer.save()
-            smd = smd_response(
-                success=True,
-                message='The file is successfully created',
-                data=file_serializer.data,
-                status=status.HTTP_201_CREATED)
+            upload_file(os.path.join(BASE_DIR, 'templates') + '/' + request.FILES['file'].name,
+                        AWS_STORAGE_BUCKET_NAME)
+            smd = Response({
+                "success": True,
+                "message": 'The file is successfully uploaded to Aws S3 bucket'})
+
         else:
-            smd = smd_response(
-                success=False,
-                message='The file is not created',
-                data=file_serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST)
+            smd = Response({
+                "success": False,
+                "message": 'The file is not uploaded successfully '})
+        return smd
+
+
+class S3FileDeleteView(GenericAPIView):
+    serializer_class = FileSerializer
+
+    def delete(self, request, file_name):
+        # file_name = request.FILES['file'].name
+        delete_file(file_name)
+        smd = Response({
+            "success": True,
+            "message": 'The file is deleted from the S3 bucket'})
         return smd
 
 
@@ -108,7 +121,3 @@ class PostsShareView(GenericAPIView):
                 data=post_serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST)
         return smd
-
-
-
-

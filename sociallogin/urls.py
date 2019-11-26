@@ -6,10 +6,11 @@ file
 Author: Pooja Adhikari
 """
 from django.urls import path
-from sociallogin.views import FileUploadView, DocumentUploadView, PostsShareView
+from sociallogin.views import DocumentUploadView, PostsShareView,S3FileUploadView,S3FileDeleteView
 
 urlpatterns = [
-    path('file/', FileUploadView.as_view(), name='file-upload'),
     path('document/', DocumentUploadView.as_view(), name='media'),
     path('post/', PostsShareView.as_view(), name='posts'),
+    path('S3fileupload/', S3FileUploadView.as_view(), name='awsfileupload'),
+    path('S3filedelete/<file_name>/', S3FileDeleteView.as_view(), name='awsfiledelete')
 ]

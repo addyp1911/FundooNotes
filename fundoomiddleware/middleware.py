@@ -1,16 +1,22 @@
 import json
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.utils.deprecation import MiddlewareMixin
 from notes.models import Label, Note
 
 
-class CheckLabelMiddleware(object):
+class CheckLabelMiddleware(MiddlewareMixin):
 
     def __init__(self, get_response):
+        super().__init__(get_response)
         self.get_response = get_response
 
     def __call__(self, request):
-        response = self.get_response(request)
+        response = None
+        if hasattr(self, 'process_request'):
+            response = self.process_request(request)
+        if not response:
+            response = self.get_response(request)
         return response
 
     def process_view(self, request, view_func, *view_args, **view_kwargs):
@@ -28,7 +34,7 @@ class CheckLabelMiddleware(object):
             elif request.path.startswith('/api/note/') and request.method == 'POST':
                 body = json.loads(request.body)
                 for collab in body['collaborator']:
-                    if collab not in [user.email for user in User.objects.all()] and collab == request.user.email:
+                    if collab not in [user.email for user in User.objects.all()] or collab == request.user.email:
                         return JsonResponse({'exception': "The collaborator is invalid"})
                 for label in body['label']:
                     if label not in [lab.label for lab in Label.objects.all()]:
