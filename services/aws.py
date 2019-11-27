@@ -35,7 +35,7 @@ def upload_file(file_name, bucket):
 
 
 def delete_file(object_name):
-    """delete a file from an S3 bucket
+    """delete a file/directory from an S3 bucket
     :param object_name: S3 object name. If not specified then file_name is used
     :return: True if file was uploaded, else False
     """
