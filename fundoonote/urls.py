@@ -6,7 +6,7 @@ from sociallogin.views import Home
 schema_view = get_swagger_view(title='SWAGGER APIS')
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('useraccount.urls')),
+    path('user/', include('useraccount.urls')),
     path('schema/', schema_view),
     path('', Home.as_view(), name='home'),
     path('home/', Home.as_view(), name='home'),

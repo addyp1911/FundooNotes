@@ -9,8 +9,8 @@
 """
 import json
 import os
+from django.contrib.auth.models import User
 from notes.models import Label, Note, EmailTemplate
-from django.test import TestCase
 from fundoonote.settings import note_create_url, label_create_url, note_url, label_url, \
     archive_notes_url, trash_notes_url, reminder_url, send_mail_url
 from rest_framework.test import APITestCase
@@ -18,12 +18,12 @@ from rest_framework.test import APITestCase
 with open(os.path.dirname(__file__).split('/notes')[0] + '/templates' + str('/testing_note.json'), 'r') as f:
     DATA = json.load(f)
     header = {
-        'HTTP_AUTHORIZATION': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNDU1NTY1LCJqdGkiOiI5MjBjZDFkYmM4NGY0MjdiYWI0ZmYwZWFiNGIxMzM5NCIsInVzZXJfaWQiOjF9.Dx2r_cI8zq57eYDP-Xwt5L9X1f66DVHTB4k7fRTzVGw'
+        'HTTP_AUTHORIZATION': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzMyOTkwLCJqdGkiOiIwYWZhZmZjNmI5N2M0M2U5YmI4YzM4NzliZmM3OWU2NyIsInVzZXJfaWQiOjF9.mKgTiqlatPBQFz3qtVdnyH7-R1Tz7Bx9Wm20CqWk-D0'
     }
-    token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNDU1NTY1LCJqdGkiOiI5MjBjZDFkYmM4NGY0MjdiYWI0ZmYwZWFiNGIxMzM5NCIsInVzZXJfaWQiOjF9.Dx2r_cI8zq57eYDP-Xwt5L9X1f66DVHTB4k7fRTzVGw'
+    token = os.getenv('token')
 
 
-    class LabelModelTest(TestCase):
+    class LabelModelTest(APITestCase):
 
         def test_string_representation(self):
             label_entry = Label(label="notimportant")
@@ -34,7 +34,7 @@ with open(os.path.dirname(__file__).split('/notes')[0] + '/templates' + str('/te
             self.assertEqual(str(label_entry), label_entry.label)
 
 
-    class NoteModelTest(TestCase):
+    class NoteModelTest(APITestCase):
 
         def test_string_representation(self):
             note_entry = Note(title="shifting to city")
@@ -164,3 +164,41 @@ class SendEmail(APITestCase):
         response = self.client.post(path=send_mail_url, data=DATA[4]['email1'])
         print(response.content)
         self.assertEqual(response.status_code, 200)
+
+
+class TitleContentFieldValidation(APITestCase):
+    fixtures = ['project_database.json']
+
+    def test_note_view1(self):
+        response = self.client.post(path=note_create_url, data=DATA[5]['note1'], **header)
+        print(response.content)
+        self.assertLessEqual(len(DATA[5]['note1']['title']), 50)
+        self.assertLessEqual(len(DATA[5]['note1']['content']), 200)
+
+    def test_note_view2(self):
+        response = self.client.post(path=note_create_url, data=DATA[5]['note2'], **header)
+        print(response.content)
+        self.assertLessEqual(len(DATA[5]['note2']['title']), 50)
+        self.assertLessEqual(len(DATA[5]['note2']['content']), 200)
+
+    def test_note_view3(self):
+        response = self.client.post(path=note_create_url, data=DATA[5]['note3'], **header)
+        print(response.content)
+        self.assertGreaterEqual(len(DATA[5]['note3']['title']), 50)
+        self.assertLessEqual(len(DATA[5]['note3']['content']), 200)
+
+
+class UserCollaboratorLabelTypeFieldValidation(APITestCase):
+    fixtures = ['project_database.json']
+
+    def test_note_view1(self):
+        response = self.client.post(path=note_create_url, data=DATA[6]['note1'], **header)
+        print(response.content)
+        user = User.objects.get(id=DATA[6]['note1']['user'])
+        self.assertNotEqual(type(DATA[6]['note1']['user']), type(user.id))
+
+    def test_note_view2(self):
+        response = self.client.post(path=note_create_url, data=DATA[6]['note2'], **header)
+        print(response.content)
+        user = User.objects.get(id=DATA[6]['note2']['user'])
+        self.assertEqual(type(DATA[6]['note1']['user']), type(str(user.id)))

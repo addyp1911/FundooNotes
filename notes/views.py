@@ -511,6 +511,7 @@ def search_note(request, note_query):
             (Q("match", label=note_query) |
              Q("match", content=note_query) |
              Q("match", title=note_query) |
+             Q("match", id=note_query) |
              Q("match", collaborator=note_query)) &
             Q("match", user=request.user.id)
         )
@@ -520,9 +521,9 @@ def search_note(request, note_query):
 class NoteSearch(GenericAPIView):
     serializer_class = NoteDocumentSerializer
 
-    def get(self, request, param):
+    def get(self, request, note):
         try:
-            searched_notes = search_note(request, param)
+            searched_notes = search_note(request, note)
             serializer = NoteDocumentSerializer(searched_notes, many=True)
             logger.info("searched for the notes for {} using elastic search".format(request.user))
             return Response(serializer.data)

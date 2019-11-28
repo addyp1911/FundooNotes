@@ -1,4 +1,4 @@
-from elasticsearch_dsl import analyzer
+from elasticsearch_dsl import analyzer, tokenizer
 from django_elasticsearch_dsl.registries import registry
 from django_elasticsearch_dsl import Document, Index, fields
 from .models import Note
@@ -10,10 +10,10 @@ INDEX.settings(
     number_of_replicas=1
 )
 
-ngram_tokenizer_analyzer = analyzer(
-    'ngram_tokenizer_analyzer',
-    tokenizer="ngram",
-    filter=["lowercase", "stop", "snowball", "ngram"],
+my_analyzer = analyzer(
+    'my_analyzer',
+    tokenizer=tokenizer('standard'),
+    filter=['lowercase', 'stop', 'trim'],
     char_filter=["html_strip"]
 )
 
@@ -26,10 +26,9 @@ class NoteDocument(Document):
     class Django:
         model = Note
 
-    id = fields.IntegerField(attr='id')
+    id = fields.StringField(attr='id', analyzer="standard")
 
     title = fields.StringField(
-        analyzer=ngram_tokenizer_analyzer,
         fields={
             'raw': fields.KeywordField(),
         }
@@ -37,13 +36,11 @@ class NoteDocument(Document):
 
     user = fields.StringField(
         attr='user_indexing',
-        analyzer=ngram_tokenizer_analyzer,
         fields={
             'raw': fields.KeywordField(),
         }
     )
     content = fields.StringField(
-        analyzer=ngram_tokenizer_analyzer,
         fields={
             'raw': fields.KeywordField(),
         }
@@ -51,7 +48,6 @@ class NoteDocument(Document):
 
     label = fields.StringField(
         attr='label_indexing',
-        analyzer=ngram_tokenizer_analyzer,
         fields={
             'raw': fields.KeywordField()
         }
@@ -59,7 +55,6 @@ class NoteDocument(Document):
 
     collaborator = fields.StringField(
         attr='collaborator_indexing',
-        analyzer=ngram_tokenizer_analyzer,
         fields={
             'raw': fields.KeywordField(),
         }

@@ -119,6 +119,8 @@
 
     }
   },
+
+
   {
     "email1":
     {
@@ -130,6 +132,87 @@
     "is_text": true,
     "template_key": "432"
    }
+},
+
+
+
+{
+    "note1": {
+    "title": "pongal",
+    "content": "pongal celebration at 5",
+    "is_archive": true,
+    "is_pin": true,
+    "is_trash": false,
+    "label": [
+      "1"
+    ],
+    "collaborator": [
+      "2"
+    ]
+  },
+
+    "note2": {
+    "title": "christmas cake ",
+    "content": "have to buy christmas cake for cousins ,pick them up from school and iron their clothes",
+    "is_archive": true,
+    "is_pin": true,
+    "is_trash": false,
+    "label": [
+      "2","4"
+    ],
+    "collaborator": [
+      "2"
+    ]
+  },
+
+    "note3": {
+    "title": "new year party at sister's place, going to buy cake,new clothes and go for shopping in bandra hill ",
+    "content": "new year party at 4",
+    "is_archive": true,
+    "is_pin": true,
+    "is_trash": false,
+    "label": [
+      "8"
+    ],
+    "collaborator": [
+      "2"
+    ]
+  }
+},
+
+
+
+
+  {
+  "note1": {
+    "title": "christmas cake ",
+    "content": "have to buy christmas cake for cousins ,pick them up from school and iron their clothes",
+    "is_archive": true,
+    "is_pin": true,
+    "is_trash": false,
+    "user": "1",
+    "label": [
+      "2","4"
+    ],
+    "collaborator": [
+      "2"
+    ]
+          },
+
+    "note2": {
+    "title": "new year party at sister's place, going to buy cake,new clothes and go for shopping in bandra hill ",
+    "content": "new year party at 4",
+    "is_archive": true,
+    "is_pin": true,
+    "is_trash": false,
+    "user": "1",
+    "label": [
+      "8"
+    ],
+    "collaborator": [
+      "2"
+    ]
+  }
 }
-  ]
+]
 
