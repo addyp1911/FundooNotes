@@ -1,6 +1,6 @@
 version: "3"
 services:
-  django:
+  web:
     container_name: django_server
     build:
       context: .
@@ -12,6 +12,7 @@ services:
     networks:
       - all
     command: bash -c "sleep 5 && python manage.py makemigrations  && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+             && gunicorn -c gunicorn.conf fundoonote.wsgi
     depends_on:
       - mysql_db
       - redis
@@ -37,13 +38,30 @@ services:
     networks:
       - all
 
-  apache_server:
-    container_name: apache_doc
-    image: httpd
+#  apache_server:
+#    container_name: apache_doc
+#    image: httpd
+#    ports:
+#    - "80:80"
+#    networks:
+#     - all
+
+  nginx_server:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: nginx_container
+    image: nginx
+    volumes:
+     - ./fundoonote.static:/var/www/fundoonote/static
     ports:
-    - "80:80"
-    networks:
-     - all
+     - "80:80"
+    environment:
+     - NGINX_HOST=myproject.com
+     - NGINX_PORT=80
+    depends_on:
+      -web
+      -mysql_db
 
   elastic_server:
     container_name: elastic_search
@@ -61,6 +79,6 @@ services:
     networks:
       - all
 
-networks:
-  all:
-    driver: bridge
+  networks:
+    all:
+      driver: bridge

@@ -512,6 +512,7 @@ def search_note(request, note_query):
              Q("match", content=note_query) |
              Q("match", title=note_query) |
              Q("match", id=note_query) |
+             Q("match", reminder=note_query) |
              Q("match", collaborator=note_query)) &
             Q("match", user=request.user.id)
         )

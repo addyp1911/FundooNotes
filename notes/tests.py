@@ -18,7 +18,7 @@ from rest_framework.test import APITestCase
 with open(os.path.dirname(__file__).split('/notes')[0] + '/templates' + str('/testing_note.json'), 'r') as f:
     DATA = json.load(f)
     header = {
-        'HTTP_AUTHORIZATION': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzMyOTkwLCJqdGkiOiIwYWZhZmZjNmI5N2M0M2U5YmI4YzM4NzliZmM3OWU2NyIsInVzZXJfaWQiOjF9.mKgTiqlatPBQFz3qtVdnyH7-R1Tz7Bx9Wm20CqWk-D0'
+        'HTTP_AUTHORIZATION':'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzMyOTkwLCJqdGkiOiIwYWZhZmZjNmI5N2M0M2U5YmI4YzM4NzliZmM3OWU2NyIsInVzZXJfaWQiOjF9.mKgTiqlatPBQFz3qtVdnyH7-R1Tz7Bx9Wm20CqWk-D0'
     }
     token = os.getenv('token')
 
@@ -202,3 +202,23 @@ class UserCollaboratorLabelTypeFieldValidation(APITestCase):
         print(response.content)
         user = User.objects.get(id=DATA[6]['note2']['user'])
         self.assertEqual(type(DATA[6]['note1']['user']), type(str(user.id)))
+
+
+class EmailTemplateFieldValidation(APITestCase):
+    fixtures = ['project_database.json']
+
+    def test_email_view1(self):
+        response = self.client.post(path=note_create_url, data=DATA[7]['email1'], **header)
+        print(response.content)
+        self.assertEqual(len(DATA[7]['email1']['subject']), 255)
+
+    def test_email_view2(self):
+        response = self.client.post(path=note_create_url, data=DATA[7]['email2'], **header)
+        print(response.content)
+        self.assertEqual(len(DATA[7]['email2']['to_email']), 255)
+
+    def test_email_view3(self):
+        response = self.client.post(path=note_create_url, data=DATA[7]['email3'], **header)
+        print(response.content)
+        self.assertEqual(len(DATA[7]['email3']['from_email']), 255)
+

@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from pathlib import *
 from datetime import timedelta
-import environ
+
 load_dotenv(find_dotenv())
 env_path = Path('.') / '.env'
 

@@ -213,6 +213,43 @@
       "2"
     ]
   }
+},
+
+{
+
+    "email1":
+    {
+    "subject": "Please note user",
+    "to_email": "addyp1911@gmail.com",
+    "from_email": "lilysingh789@gmail.com",
+    "plain_text": "reset password user",
+    "is_html": true,
+    "is_text": true,
+    "template_key": "432"
+   },
+
+    "email2":
+    {
+    "subject": "Please note user",
+    "to_email": "addyp1911@gmail.com",
+    "from_email": "lilysingh789@gmail.com",
+    "plain_text": "reset password user",
+    "is_html": true,
+    "is_text": true,
+    "template_key": "432"
+   },
+
+    "email3":
+    {
+    "subject": "Please note user",
+    "to_email": "addyp1911@gmail.com",
+    "from_email": "lilysingh789@gmail.com",
+    "plain_text": "reset password user",
+    "is_html": true,
+    "is_text": true,
+    "template_key": "432"
+   }
 }
+
 ]
 
