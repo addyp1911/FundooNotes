@@ -28,4 +28,4 @@ def decorator_login(func):
                jwt.ExpiredSignature):
             data = {'error': "Bad Request,the token has expired or incorrect token"}
             return HttpResponse(json.dumps(data))
-        return inner
+    return inner
